@@ -1,0 +1,12 @@
+on:
+  workflow_dispatch:
+
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+
+    container: google/dart:2 # Required to run the action
+
+    steps:
+      - uses: axel-op/hello-world-dart-action@master
