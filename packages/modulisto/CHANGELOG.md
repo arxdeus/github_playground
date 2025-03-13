@@ -13,6 +13,18 @@
 - 1414124 - ([0fa41e5](https://github.com/arxdeus/modulisto/commit/0fa41e5c361c944bf75d32bd790638ff75f44ea9))
 
 ---
+## [0.0.14](https://github.com/arxdeus/modulisto/compare/modulisto-v0.0.4..0.0.14) - 2025-03-13
+
+### Bug Fixes
+
+- sheesh fix that - ([b6c2d57](https://github.com/arxdeus/modulisto/commit/b6c2d57d18bb92c0ff3817f10dc92fc1cf9057e4))
+
+### Features
+
+- some cool changes - ([fc5637b](https://github.com/arxdeus/modulisto/commit/fc5637b0936834c1b630413c8916bdd4bfc62157))
+- 1414124 - ([0fa41e5](https://github.com/arxdeus/modulisto/commit/0fa41e5c361c944bf75d32bd790638ff75f44ea9))
+
+---
 ## [0.0.12](https://github.com/arxdeus/modulisto/compare/modulisto-v0.0.4..0.0.12) - 2025-03-13
 
 ### Bug Fixes
