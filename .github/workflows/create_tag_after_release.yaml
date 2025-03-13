@@ -19,3 +19,4 @@ jobs:
           PACKAGE_TAG="${PACKAGE_NAME}-v${PACKAGE_VERSION}"
           git tag ${PACKAGE_TAG}
           git push origin/main ${PACKAGE_TAG}
+          git push origin -d release/${PACKAGE_NAME}/${PACKAGE_VERSION}
