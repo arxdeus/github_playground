@@ -1,6 +1,21 @@
 # Changelog
 
 ---
+## [0.0.22](https://github.com/arxdeus/modulisto/compare/modulisto-v2.2.8..0.0.22) - 2025-03-13
+
+### Bug Fixes
+
+- some internal stuff - ([7ab268d](https://github.com/arxdeus/modulisto/commit/7ab268d31568fa2e946b8610a68c3731c88c855b))
+
+### Features
+
+- test - ([cd61868](https://github.com/arxdeus/modulisto/commit/cd61868b17759ea0ee01a42d1edd75a97d7ea76c))
+
+### Miscellaneous Chores
+
+- **(build)** something about build - ([5f7d581](https://github.com/arxdeus/modulisto/commit/5f7d581e55e5ad8f64a9ac320f530e4a3f3d497f))
+
+---
 ## [0.0.15](https://github.com/arxdeus/modulisto/compare/modulisto-v0.0.4..0.0.15) - 2025-03-13
 
 ### Bug Fixes
