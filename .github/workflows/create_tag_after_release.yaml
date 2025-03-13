@@ -1,0 +1,21 @@
+name: Create tag after release
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-latest
+    if: contains( github.event.pull_request.labels.*.name, 'release')
+    steps:
+      - name: Create tag
+        shell: bash
+        run: |
+          PACKAGE_MESSAGE=release(modulisto): v2.4.0
+          PACKAGE_NAME=$(echo $PACKAGE_MESSAGE | sed 's/.*(//; s/).*//')
+          PACKAGE_VERSION=$(echo $PACKAGE_MESSAGE | sed 's/^[^: v]*: v//')
+          PACKAGE_TAG="${PACKAGE_NAME}-v${PACKAGE_VERSION}"
+          git tag ${PACKAGE_TAG}
+          git push origin/main ${PACKAGE_TAG}
