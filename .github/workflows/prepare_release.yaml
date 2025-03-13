@@ -51,7 +51,7 @@ jobs:
         id: git-cliff
         with:
           config: .github/cliff.toml
-          args: --tag ${{ inputs.package-version }} -u --prepend CHANGELOG.md --include-path packages/${{ inputs.package-name }}/**/* --exclude-path **/*
+          args: --config=.github/cliff.toml --tag ${{ inputs.package-version }} --prepend packages/${{ inputs.package-name }}/CHANGELOG.md --include-path=packages/${{ inputs.package-name }}/** -u origin/pubdev..origin/main
 
       - name: Commit version update
         run: |
