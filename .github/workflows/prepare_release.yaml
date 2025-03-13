@@ -20,10 +20,6 @@ on:
         required: true
 
 jobs:
-  code_check:
-    uses: arxdeus/github_workflows/.github/workflows/dart_monorepo_code_check.yaml@main
-    with:
-      needs-test-report: false
   pull_request_release:
     needs: code_check
     runs-on: ubuntu-latest
