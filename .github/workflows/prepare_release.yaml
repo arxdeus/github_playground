@@ -1,0 +1,87 @@
+name: Prepare to release
+permissions:
+  contents: write
+  checks: write
+  actions: read
+  pull-requests: write
+on:
+  workflow_dispatch:
+    inputs:
+      package-name:
+        type: choice
+        description: Which package to publish
+        required: true
+        options:
+        - modulisto
+        - modulisto_flutter
+      package-version:
+        type: string
+        default: '0.0.0'
+        required: true
+
+jobs:
+  code_check:
+    uses: arxdeus/github_workflows/.github/workflows/dart_monorepo_code_check.yaml@main
+    with:
+      needs-test-report: false
+  pull_request_release:
+    needs: code_check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # required to merge PRs
+      id-token: write      # required for workload-identity-federation
+      checks: write
+      actions: read
+      pull-requests: write # required to post PR comments
+      statuses: write      # required to validate combined PR status
+    steps:
+      - name: Check if release exists
+        id: check_release
+        run: |
+          RELEASE=$(gh release view ${{ inputs.package-name }}-v${{ inputs.package-version }} --json tagName -q .tagName || echo "not_found")
+          if [[ "$RELEASE" == "not_found" ]]; then
+            echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
+          else
+            exit 1;
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📦 Checkout the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v4
+        id: git-cliff
+        with:
+          config: .github/cliff.toml
+          args: --tag ${{ inputs.package-version }} -u --prepend CHANGELOG.md
+
+      - name: Commit version update
+        run: |
+          set +e
+          git config --global user.name github-actions[bot]
+          git config --global user.email github-actions[bot]@users.noreply.github.com
+          git checkout -b "release/${{ inputs.package-name }}/${{ inputs.package-version }}"
+          git commit -am "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
+          git push --set-upstream origin release/${{ inputs.package-name }}/${{ inputs.package-version }}
+
+      - name: Create pull request
+        id: create-pr
+        uses: devops-infra/action-pull-request@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: release/${{ inputs.package-name }}/${{ inputs.package-version }}
+          target_branch: pubdev
+          title: "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
+          body: ${{ steps.git-cliff.outputs.content }}
+          reviewer: arxdeus
+          assignee: arxdeus
+          label: release
+          ignore_users: "dependabot"
+      - name: Clear release branch if pull request was not created
+        shell: bash
+        if: failure() && steps.create-pr.outcome == 'failure'
+        run: |
+          git push origin -d release/${{ inputs.package-name }}/${{ inputs.package-version }}
