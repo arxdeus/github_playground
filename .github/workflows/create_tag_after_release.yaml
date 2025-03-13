@@ -10,10 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     if: contains( github.event.pull_request.labels.*.name, 'release')
     steps:
+      - name: 📦 Checkout the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          fetch-depth: 0
       - name: Create tag
         shell: bash
         run: |
-          PACKAGE_MESSAGE=${{ github.event.head_commit.message }}
+          PACKAGE_MESSAGE=$(git log -1 --format=%s)
           PACKAGE_NAME=$(echo $PACKAGE_MESSAGE | sed 's/.*(//; s/).*//')
           PACKAGE_VERSION=$(echo $PACKAGE_MESSAGE | sed 's/^[^: v]*: v//')
           PACKAGE_TAG="${PACKAGE_NAME}-v${PACKAGE_VERSION}"
