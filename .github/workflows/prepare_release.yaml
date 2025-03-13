@@ -51,7 +51,7 @@ jobs:
         id: git-cliff
         with:
           config: .github/cliff.toml
-          args: --tag ${{ inputs.package-version }} --prepend packages/${{ inputs.package-name }}/CHANGELOG.md --include-path=packages/${{ inputs.package-name }}/** -u origin/pubdev..origin/main
+          args: --tag ${{ inputs.package-version }} --prepend packages/${{ inputs.package-name }}/CHANGELOG.md --include-path=packages/${{ inputs.package-name }}/** -u origin/main..origin/main
 
       - name: Commit version update
         run: |
@@ -68,7 +68,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           source_branch: release/${{ inputs.package-name }}/${{ inputs.package-version }}
-          target_branch: pubdev
+          target_branch: main
           title: "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
           body: ${{ steps.git-cliff.outputs.content }}
           assignee: arxdeus
