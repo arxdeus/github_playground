@@ -21,7 +21,6 @@ on:
 
 jobs:
   pull_request_release:
-    needs: code_check
     runs-on: ubuntu-latest
     permissions:
       contents: write      # required to merge PRs
