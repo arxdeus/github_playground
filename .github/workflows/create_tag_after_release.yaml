@@ -36,10 +36,11 @@ jobs:
         shell: bash
         id: create-tag
         run: |
+          echo $(git log -1 --format=%s)
           PACKAGE_MESSAGE=$(git log -1 --format=%s)
           PACKAGE_NAME=$(echo $PACKAGE_MESSAGE | sed 's/.*(//; s/).*//')
           PACKAGE_VERSION=$(echo $PACKAGE_MESSAGE | sed 's/^[^: v]*: v//')
-          PACKAGE_TAG="${PACKAGE_NAME}-v${PACKAGE_VERSION}"
+          PACKAGE_TAG="$PACKAGE_NAME-v$PACKAGE_VERSION"
           git tag ${PACKAGE_TAG}
       #     git push origin ${PACKAGE_TAG}
       #     git push origin -d release/${PACKAGE_NAME}/${PACKAGE_VERSION}
