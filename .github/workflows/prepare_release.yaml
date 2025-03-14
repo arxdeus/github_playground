@@ -24,7 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write      # required to merge PRs
-      id-token: write      # required for workload-identity-federation
       checks: write
       actions: read
       pull-requests: write # required to post PR comments
@@ -64,16 +63,18 @@ jobs:
 
       - name: Create pull request
         id: create-pr
-        uses: devops-infra/action-pull-request@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: release/${{ inputs.package-name }}/${{ inputs.package-version }}
-          target_branch: main
-          title: "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
-          body: ${{ steps.git-cliff.outputs.content }}
-          assignee: arxdeus
-          label: release
-          ignore_users: "dependabot"
+        shell: bash
+        run: |
+          gh pr create --no-maintainer-edit -l "release" -b ${{ steps.git-cliff.outputs.content }} -a arxdeus -B main -H release/${{ inputs.package-name }}/${{ inputs.package-version }} -t "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
+        # with:
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
+        #   source_branch: release/${{ inputs.package-name }}/${{ inputs.package-version }}
+        #   target_branch: main
+        #   title: "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
+        #   body: ${{ steps.git-cliff.outputs.content }}
+        #   assignee: arxdeus
+        #   label: release
+        #   ignore_users: "dependabot"
       - name: Clear release branch if pull request was not created
         shell: bash
         if: failure() && steps.create-pr.outcome == 'failure'
