@@ -1,6 +1,18 @@
 # Changelog
 
 ---
+## [0.4.2](https://github.com/arxdeus/modulisto/compare/modulisto-v0.3.0..0.4.2) - 2025-03-14
+
+### Bug Fixes
+
+- some ugly fix - ([4e4e6ab](https://github.com/arxdeus/modulisto/commit/4e4e6abb542ab75c365ad0b7d5fd9b6e9752afed))
+
+### Features
+
+- NEW CHANGES - ([def37e5](https://github.com/arxdeus/modulisto/commit/def37e573356501983a764891b5e4217f36fa722))
+- ANOTHER CHANGES - ([6bb3e4c](https://github.com/arxdeus/modulisto/commit/6bb3e4c563cdc54d31f5632bdefd8c568e5d06d5))
+
+---
 ## [0.3.0](https://github.com/arxdeus/modulisto/compare/modulisto-v0.1.4..0.3.0) - 2025-03-14
 
 ### Features
