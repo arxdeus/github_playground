@@ -25,6 +25,11 @@ jobs:
         with:
           fetch-tags: true
           fetch-depth: 0
+      - uses: cardoe/ssh-agent-deploy-key@v1
+        with:
+          # SSH private keys to load into the ssh-agent
+          ssh-private-key: |
+            ${{ secrets.GH_DEPLOY_KEY }}
       - name: Fetch changelog
         id: fetch-changelog
         shell: bash
