@@ -65,6 +65,11 @@ jobs:
           git commit -am "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
           git push --set-upstream origin release/${{ inputs.package-name }}/${{ inputs.package-version }}
 
+      - name: build
+        uses: docker://ghcr.io/plugfox/flutter:3.29.2
+        with:
+          args: flutter create test_app
+
       - name: Create pull request
         id: create-pr
         shell: bash
