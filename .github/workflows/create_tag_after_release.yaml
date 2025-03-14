@@ -31,6 +31,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          git checkout ${{ github.event.pull_request.base.ref }}
           CHANGELOG_BODY=$(gh pr view --json body -q .body)
           echo "changelog-body=${CHANGELOG_BODY}" >> $GITHUB_OUTPUT
       - name: Create tag
