@@ -17,8 +17,8 @@ jobs:
     if: |
       contains( github.event.pull_request.labels.*.name, 'release') &&
       github.event.issue.pull_request &&
-      contains(github.event.comment.body, '/deploy') &&
-      (${{ github.event.comment.user.login }} == arxdeus)
+      contains(github.event.comment.body, '/publish') &&
+      (${{ github.event.comment.user.login }} == ${{ github.repository_owner }})
     steps:
       - name: 📦 Checkout the repo
         uses: actions/checkout@v4
