@@ -47,7 +47,7 @@ jobs:
           git tag ${PACKAGE_TAG}
           git push origin ${PACKAGE_TAG}
           git push origin -d release/${PACKAGE_NAME}/${PACKAGE_VERSION}
-          echo "package-tag=${PACKAGE_TAG}" >> $GITHUB_OUTPUT
+          echo "package-tag=$PACKAGE_TAG" >> $GITHUB_OUTPUT
       - name: Create release
         id: create-release
         shell: bash
