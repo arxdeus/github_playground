@@ -32,14 +32,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh pr checkout ${{ github.event.issue.number }}
-          gh pr view --json body -q .body > RELEASE_CHANGELOG.md
+          gh pr view \
+          --json body \
+          -q .body \
+          > RELEASE_CHANGELOG.md
       - name: Merge pull request
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr merge ${{ github.event.issue.number }} \
-          --rebase
+          gh pr merge \
+          ${{ github.event.issue.number }} \
+          --rebase \
+          --admin
       - name: Create tag
         shell: bash
         id: create-tag
