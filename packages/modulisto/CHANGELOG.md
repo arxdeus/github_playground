@@ -1,6 +1,19 @@
 # Changelog
 
 ---
+## [0.5.2](https://github.com/arxdeus/modulisto/compare/modulisto-v0.5.0..0.5.2) - 2025-03-14
+
+### Bug Fixes
+
+- **(lol)** kek - ([04a483c](https://github.com/arxdeus/modulisto/commit/04a483caaf3a5d901dac00d2545afcb07dfe7d7f))
+
+### Features
+
+- **(test)** TTTTTTTT - ([d960bf4](https://github.com/arxdeus/modulisto/commit/d960bf4951ad9b1e70bd1b8eb340461d94d8ab6f))
+- PPPPPPPPP - ([9eabb5f](https://github.com/arxdeus/modulisto/commit/9eabb5f3de21a1fcfc465b1b9063660ada480d6a))
+- bruh - ([d3840db](https://github.com/arxdeus/modulisto/commit/d3840db3fa8a66586c44c7fc5619fe8646946164))
+
+---
 ## [0.5.0](https://github.com/arxdeus/modulisto/compare/modulisto-v0.4.3..0.5.0) - 2025-03-14
 
 ### Bug Fixes
