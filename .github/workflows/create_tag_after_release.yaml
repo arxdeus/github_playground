@@ -31,11 +31,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          {
-            echo "changelog-body<<EOF"
-            gh pr view ${{ github.event.issue.number }} --json body -q .body
-            echo EOF
-          } >> $GITHUB_OUTPUT
+          gh pr view ${{ github.event.issue.number }} --json body -q .body > RELEASE_CHANGELOG.md
       - name: Create tag
         shell: bash
         id: create-tag
@@ -45,18 +41,17 @@ jobs:
           PACKAGE_VERSION=$(echo $PACKAGE_MESSAGE | sed 's/^[^: v]*: v//')
           PACKAGE_TAG="${PACKAGE_NAME}-v${PACKAGE_VERSION}"
           git tag ${PACKAGE_TAG}
-          git push origin ${PACKAGE_TAG}
-          git push origin -d release/${PACKAGE_NAME}/${PACKAGE_VERSION}
-          # echo "package-tag=$PACKAGE_TAG" >> $GITHUB_OUTPUT
-      - name: Create release
-        id: create-release
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          echo ${{ steps.fetch-changelog.outputs.changelog-body }} > RELEASE_CHANGELOG.md
-          gh release create ${{ steps.create-tag.outputs.package-tag }} \
-          -F RELEASE_CHANGELOG.md \
-          --latest \
-          --verify-tag
-          rm -rf RELEASE_CHANGELOG.md
+      #     git push origin ${PACKAGE_TAG}
+      #     git push origin -d release/${PACKAGE_NAME}/${PACKAGE_VERSION}
+      #     echo "package-tag=$PACKAGE_TAG" >> $GITHUB_OUTPUT
+      # - name: Create release
+      #   id: create-release
+      #   shell: bash
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     gh release create ${{ steps.create-tag.outputs.package-tag }} \
+      #     -F RELEASE_CHANGELOG.md \
+      #     --latest \
+      #     --verify-tag
+      #     rm -rf RELEASE_CHANGELOG.md
