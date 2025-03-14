@@ -65,7 +65,7 @@ jobs:
         id: create-pr
         shell: bash
         run: |
-          gh pr create --no-maintainer-edit -l "release" -b ${{ steps.git-cliff.outputs.content }} -a arxdeus -B main -H release/${{ inputs.package-name }}/${{ inputs.package-version }} -t "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
+          gh pr create --no-maintainer-edit -l "release" -b "${{ steps.git-cliff.outputs.content }}" -a arxdeus -B main -H release/${{ inputs.package-name }}/${{ inputs.package-version }} -t "release(${{ inputs.package-name }}): v${{ inputs.package-version }}"
         # with:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         #   source_branch: release/${{ inputs.package-name }}/${{ inputs.package-version }}
