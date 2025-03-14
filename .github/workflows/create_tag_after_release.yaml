@@ -1,24 +1,41 @@
 name: Create tag after release
 
 on:
+  issue_comment:
+    types: [created]
+
   pull_request:
-    types:
-      - closed
+    branches:
+      - 'release/**'
+
 
 jobs:
-  create_tag:
+  create_release:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    if: contains( github.event.pull_request.labels.*.name, 'release')
+    if: |
+      contains( github.event.pull_request.labels.*.name, 'release') &&
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '/deploy') &&
+      (${{ github.event.comment.user.login }} == arxdeus)
     steps:
       - name: 📦 Checkout the repo
         uses: actions/checkout@v4
         with:
           fetch-tags: true
           fetch-depth: 0
+      - name: Fetch changelog
+        id: fetch-changelog
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CHANGELOG_BODY=$(gh pr view --json body -q .body)
+          echo "changelog-body=${CHANGELOG_BODY}" >> $GITHUB_OUTPUT
       - name: Create tag
         shell: bash
+        id: create-tag
         run: |
           PACKAGE_MESSAGE=$(git log -1 --format=%s)
           PACKAGE_NAME=$(echo $PACKAGE_MESSAGE | sed 's/.*(//; s/).*//')
@@ -27,3 +44,16 @@ jobs:
           git tag ${PACKAGE_TAG}
           git push origin ${PACKAGE_TAG}
           git push origin -d release/${PACKAGE_NAME}/${PACKAGE_VERSION}
+          echo "package-tag=${PACKAGE_TAG}" >> $GITHUB_OUTPUT
+      - name: Create release
+        id: create-release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo ${{ steps.fetch-changelog.outputs.changelog-body }} > RELEASE_CHANGELOG.md
+          gh release create ${{ steps.create-tag.outputs.package-tag }} \
+          -F RELEASE_CHANGELOG.md \
+          --latest \
+          --verify-tag
+          rm -rf RELEASE_CHANGELOG.md
