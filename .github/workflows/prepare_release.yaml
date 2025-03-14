@@ -26,8 +26,7 @@ jobs:
       contents: write      # required to merge PRs
       checks: write
       actions: read
-      pull-requests: write # required to post PR comments
-      statuses: write      # required to validate combined PR status
+      pull-requests: write
     steps:
       - name: Check if release exists
         id: check_release
@@ -50,7 +49,12 @@ jobs:
         id: git-cliff
         with:
           config: .github/cliff.toml
-          args: --tag ${{ inputs.package-version }} --prepend packages/${{ inputs.package-name }}/CHANGELOG.md --include-path=packages/${{ inputs.package-name }}/** -u origin/main..$(git describe --tags --match="${{ inputs.package-name }}-v*" origin/main)
+          args: |
+            -u \
+            --tag ${{ inputs.package-version }} \
+            --prepend packages/${{ inputs.package-name }}/CHANGELOG.md \
+            --include-path=packages/${{ inputs.package-name }}/** \
+            origin/main..$(git describe --tags --match="${{ inputs.package-name }}-v*" origin/main)
 
       - name: Commit version update
         run: |
