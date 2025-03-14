@@ -25,13 +25,17 @@ jobs:
         with:
           fetch-tags: true
           fetch-depth: 0
+      - name: Checkout Pull Request
+        shell: bash
+        run: gh pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fetch changelog
         id: fetch-changelog
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git checkout ${{ github.event.pull_request.head.ref }}
           CHANGELOG_BODY=$(gh pr view --json body -q .body)
           echo "changelog-body=${CHANGELOG_BODY}" >> $GITHUB_OUTPUT
       - name: Create tag
