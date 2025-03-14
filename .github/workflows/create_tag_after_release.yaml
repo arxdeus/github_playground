@@ -37,7 +37,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           CHANGELOG_BODY=$(gh pr view --json body -q .body)
-          echo "changelog-body=${CHANGELOG_BODY}" >> $GITHUB_OUTPUT
+          echo "changelog-body=$CHANGELOG_BODY" >> $GITHUB_OUTPUT
       - name: Create tag
         shell: bash
         id: create-tag
