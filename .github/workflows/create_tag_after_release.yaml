@@ -48,8 +48,7 @@ jobs:
         run: |
           gh pr merge \
           ${{ github.event.issue.number }} \
-          --rebase \
-          --admin
+          --rebase
       - name: Create tag
         shell: bash
         id: create-tag
