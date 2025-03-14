@@ -45,6 +45,7 @@ jobs:
         id: create-tag
         run: |
           git fetch --prune
+          git pull
           git checkout main
           PACKAGE_MESSAGE=$(git log -1 --format=%s)
           PACKAGE_NAME=$(echo $PACKAGE_MESSAGE | sed 's/.*(//; s/).*//')
